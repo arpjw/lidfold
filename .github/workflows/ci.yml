@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Select Xcode 26.3
         run: sudo xcode-select --switch /Applications/Xcode_26.3.app/Contents/Developer
@@ -34,3 +34,25 @@ jobs:
 
       - name: Test
         run: swift test
+
+      - name: Check Xcode source parity
+        run: scripts/check-xcode-project.sh
+
+      - name: Build native macOS app
+        run: |
+          xcodebuild \
+            -project LidFold.xcodeproj \
+            -scheme LidFold \
+            -configuration Debug \
+            -destination "platform=macOS" \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Test native macOS app
+        run: |
+          xcodebuild \
+            test \
+            -project LidFold.xcodeproj \
+            -scheme LidFold \
+            -destination "platform=macOS" \
+            CODE_SIGNING_ALLOWED=NO

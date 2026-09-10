@@ -20,4 +20,12 @@ final class LidFoldTests: XCTestCase {
         XCTAssertEqual(halfway.progress, 0.5, accuracy: 0.000_001)
         XCTAssertEqual(halfway.blurRadius, 9)
     }
+
+    func testReducedMotionKeepsOnlyShading() {
+        let parameters = FoldParameters.map(angle: 8, reducedMotion: true)
+        XCTAssertEqual(parameters.progress, 0)
+        XCTAssertEqual(parameters.perspective, 0)
+        XCTAssertEqual(parameters.blurRadius, 0)
+        XCTAssertEqual(parameters.shadowOpacity, 0.46)
+    }
 }

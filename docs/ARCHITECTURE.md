@@ -5,9 +5,12 @@
 LidFold uses a hybrid native build:
 
 - A Swift package holds the dependency-free core, hardware diagnostics, and unit tests.
-- A real Xcode macOS application target will own the distributable app, bundle identity,
+- The shared `LidFold.xcodeproj` macOS application target owns the distributable app, bundle identity,
   entitlements, Metal resources, signing, and notarization.
-- `scripts/build-app.sh` creates an ad-hoc development bundle until the Xcode target lands.
+- `scripts/build-app.sh` remains the fast, ad-hoc development bundle path for contributors who
+  only have Command Line Tools.
+- `scripts/package-release.sh` uses full Xcode to produce an ad-hoc-signed universal app archive
+  and DMG with SHA-256 checksums. Release tags run this path on GitHub Actions.
 - GitHub Actions is the canonical clean environment for builds and tests.
 
 The stable app bundle matters because macOS Screen Recording authorization is associated with
@@ -15,9 +18,20 @@ the signed application identity. Xcode is also the standard build path for compi
 sources into the app's default Metal library. We will not commit generated dependency folders
 or make a third-party project generator mandatory.
 
+For a local ad-hoc-signed release build, select full Xcode and run:
+
+```sh
+VERSION=0.1.0 BUILD_NUMBER=1 scripts/package-release.sh
+```
+
+The script verifies that the binary contains both `arm64` and `x86_64`, creates a ZIP that
+preserves the app bundle, creates a read-only compressed DMG with an Applications shortcut,
+and writes `dist/SHA256SUMS.txt`. Ad-hoc-signed artifacts are expected to trigger macOS
+Gatekeeper; they do not claim Developer ID trust or notarization.
+
 ## Runtime ownership
 
-`AppController` will be the sole main-actor owner of application state. It coordinates these
+`AppDelegate` is the sole main-actor owner of application state. It coordinates these
 components:
 
 1. `HingeMonitor` reads the HID sensor away from the main actor and publishes sanitized angles.
@@ -59,9 +73,10 @@ overlay.
 
 ### Slice 4: distribution
 
-- Add Developer ID signing and Apple notarization using repository secrets.
-- Produce a universal `.app`, DMG, checksums, and release notes.
-- Keep unsigned source builds available without an Apple account.
+- Produce an ad-hoc-signed universal `.app`, DMG, checksums, and release notes.
+- Add Developer ID signing and Apple notarization only when a maintainer deliberately configures
+  repository secrets; ad-hoc-signed builds remain the reproducible open-source baseline.
+- Keep source and ad-hoc-signed app builds available without an Apple account.
 
 ## Safety invariants
 

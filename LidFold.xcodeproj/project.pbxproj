@@ -1,0 +1,481 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		010000000000000000000001 /* FoldActivationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000001 /* FoldActivationController.swift */; };
+		010000000000000000000002 /* FoldParameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000002 /* FoldParameters.swift */; };
+		010000000000000000000003 /* FoldRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000003 /* FoldRenderer.swift */; };
+		010000000000000000000004 /* HingeAngleSensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000004 /* HingeAngleSensor.swift */; };
+		010000000000000000000005 /* HingeMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000005 /* HingeMonitor.swift */; };
+		010000000000000000000006 /* LidFold.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000006 /* LidFold.swift */; };
+		010000000000000000000007 /* OverlayController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000007 /* OverlayController.swift */; };
+		010000000000000000000008 /* ScreenCaptureEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000008 /* ScreenCaptureEngine.swift */; };
+		010000000000000000000009 /* ScreenCapturePermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000009 /* ScreenCapturePermission.swift */; };
+		01000000000000000000000A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000A /* Assets.xcassets */; };
+		01000000000000000000000B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000B /* AppKit.framework */; };
+		01000000000000000000000C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000C /* CoreMedia.framework */; };
+		01000000000000000000000D /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000D /* CoreVideo.framework */; };
+		01000000000000000000000E /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000E /* IOKit.framework */; };
+		01000000000000000000000F /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02000000000000000000000F /* Metal.framework */; };
+		010000000000000000000010 /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 020000000000000000000010 /* MetalKit.framework */; };
+		010000000000000000000011 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 020000000000000000000011 /* ScreenCaptureKit.framework */; };
+		010000000000000000000012 /* LaunchAtLoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000014 /* LaunchAtLoginController.swift */; };
+		010000000000000000000013 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000015 /* SettingsStore.swift */; };
+		010000000000000000000014 /* SettingsWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000016 /* SettingsWindowController.swift */; };
+		010000000000000000000015 /* CaptureDisplayTopology.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000017 /* CaptureDisplayTopology.swift */; };
+		010000000000000000000016 /* CaptureDisplayTopologyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000018 /* CaptureDisplayTopologyTests.swift */; };
+		010000000000000000000017 /* FoldActivationControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000019 /* FoldActivationControllerTests.swift */; };
+		010000000000000000000018 /* HingeMonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001A /* HingeMonitorTests.swift */; };
+		010000000000000000000019 /* LaunchAtLoginControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001B /* LaunchAtLoginControllerTests.swift */; };
+		01000000000000000000001A /* LidFoldTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001C /* LidFoldTests.swift */; };
+		01000000000000000000001B /* ScreenCapturePermissionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001D /* ScreenCapturePermissionTests.swift */; };
+		01000000000000000000001C /* ScreenCaptureRecoveryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001E /* ScreenCaptureRecoveryTests.swift */; };
+		01000000000000000000001D /* SettingsStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02000000000000000000001F /* SettingsStoreTests.swift */; };
+		01000000000000000000001F /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 020000000000000000000022 /* PrivacyInfo.xcprivacy */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		020000000000000000000001 /* FoldActivationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldActivationController.swift; sourceTree = "<group>"; };
+		020000000000000000000002 /* FoldParameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldParameters.swift; sourceTree = "<group>"; };
+		020000000000000000000003 /* FoldRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldRenderer.swift; sourceTree = "<group>"; };
+		020000000000000000000004 /* HingeAngleSensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HingeAngleSensor.swift; sourceTree = "<group>"; };
+		020000000000000000000005 /* HingeMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HingeMonitor.swift; sourceTree = "<group>"; };
+		020000000000000000000006 /* LidFold.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidFold.swift; sourceTree = "<group>"; };
+		020000000000000000000007 /* OverlayController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayController.swift; sourceTree = "<group>"; };
+		020000000000000000000008 /* ScreenCaptureEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCaptureEngine.swift; sourceTree = "<group>"; };
+		020000000000000000000009 /* ScreenCapturePermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapturePermission.swift; sourceTree = "<group>"; };
+		02000000000000000000000A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		02000000000000000000000B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		02000000000000000000000C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		02000000000000000000000D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		02000000000000000000000E /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		02000000000000000000000F /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		020000000000000000000010 /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		020000000000000000000011 /* ScreenCaptureKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenCaptureKit.framework; path = System/Library/Frameworks/ScreenCaptureKit.framework; sourceTree = SDKROOT; };
+		020000000000000000000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		020000000000000000000013 /* LidFold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LidFold.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		020000000000000000000014 /* LaunchAtLoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginController.swift; sourceTree = "<group>"; };
+		020000000000000000000015 /* SettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
+		020000000000000000000016 /* SettingsWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindowController.swift; sourceTree = "<group>"; };
+		020000000000000000000017 /* CaptureDisplayTopology.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureDisplayTopology.swift; sourceTree = "<group>"; };
+		020000000000000000000018 /* CaptureDisplayTopologyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureDisplayTopologyTests.swift; sourceTree = "<group>"; };
+		020000000000000000000019 /* FoldActivationControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoldActivationControllerTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001A /* HingeMonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HingeMonitorTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001B /* LaunchAtLoginControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginControllerTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001C /* LidFoldTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidFoldTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001D /* ScreenCapturePermissionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCapturePermissionTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001E /* ScreenCaptureRecoveryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCaptureRecoveryTests.swift; sourceTree = "<group>"; };
+		02000000000000000000001F /* SettingsStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStoreTests.swift; sourceTree = "<group>"; };
+		020000000000000000000021 /* LidFoldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LidFoldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		020000000000000000000022 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		030000000000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01000000000000000000000B /* AppKit.framework in Frameworks */,
+				01000000000000000000000C /* CoreMedia.framework in Frameworks */,
+				01000000000000000000000D /* CoreVideo.framework in Frameworks */,
+				01000000000000000000000E /* IOKit.framework in Frameworks */,
+				01000000000000000000000F /* Metal.framework in Frameworks */,
+				010000000000000000000010 /* MetalKit.framework in Frameworks */,
+				010000000000000000000011 /* ScreenCaptureKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		030000000000000000000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		040000000000000000000001 = {
+			isa = PBXGroup;
+			children = (
+				040000000000000000000002 /* Sources */,
+				040000000000000000000006 /* Tests */,
+				040000000000000000000003 /* Resources */,
+				040000000000000000000004 /* Frameworks */,
+				040000000000000000000005 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		040000000000000000000002 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				020000000000000000000017 /* CaptureDisplayTopology.swift */,
+				020000000000000000000001 /* FoldActivationController.swift */,
+				020000000000000000000002 /* FoldParameters.swift */,
+				020000000000000000000003 /* FoldRenderer.swift */,
+				020000000000000000000004 /* HingeAngleSensor.swift */,
+				020000000000000000000005 /* HingeMonitor.swift */,
+				020000000000000000000014 /* LaunchAtLoginController.swift */,
+				020000000000000000000006 /* LidFold.swift */,
+				020000000000000000000007 /* OverlayController.swift */,
+				020000000000000000000008 /* ScreenCaptureEngine.swift */,
+				020000000000000000000009 /* ScreenCapturePermission.swift */,
+				020000000000000000000015 /* SettingsStore.swift */,
+				020000000000000000000016 /* SettingsWindowController.swift */,
+			);
+			name = Sources;
+			path = Sources/LidFold;
+			sourceTree = SOURCE_ROOT;
+		};
+		040000000000000000000003 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				02000000000000000000000A /* Assets.xcassets */,
+				020000000000000000000012 /* Info.plist */,
+				020000000000000000000022 /* PrivacyInfo.xcprivacy */,
+			);
+			name = Resources;
+			path = Resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		040000000000000000000004 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02000000000000000000000B /* AppKit.framework */,
+				02000000000000000000000C /* CoreMedia.framework */,
+				02000000000000000000000D /* CoreVideo.framework */,
+				02000000000000000000000E /* IOKit.framework */,
+				02000000000000000000000F /* Metal.framework */,
+				020000000000000000000010 /* MetalKit.framework */,
+				020000000000000000000011 /* ScreenCaptureKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		040000000000000000000005 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				020000000000000000000013 /* LidFold.app */,
+				020000000000000000000021 /* LidFoldTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		040000000000000000000006 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				020000000000000000000018 /* CaptureDisplayTopologyTests.swift */,
+				020000000000000000000019 /* FoldActivationControllerTests.swift */,
+				02000000000000000000001A /* HingeMonitorTests.swift */,
+				02000000000000000000001B /* LaunchAtLoginControllerTests.swift */,
+				02000000000000000000001C /* LidFoldTests.swift */,
+				02000000000000000000001D /* ScreenCapturePermissionTests.swift */,
+				02000000000000000000001E /* ScreenCaptureRecoveryTests.swift */,
+				02000000000000000000001F /* SettingsStoreTests.swift */,
+			);
+			name = Tests;
+			path = Tests/LidFoldTests;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		050000000000000000000001 /* LidFold */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A0000000000000000000002 /* Build configuration list for PBXNativeTarget "LidFold" */;
+			buildPhases = (
+				060000000000000000000001 /* Sources */,
+				030000000000000000000001 /* Frameworks */,
+				070000000000000000000001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LidFold;
+			productName = LidFold;
+			productReference = 020000000000000000000013 /* LidFold.app */;
+			productType = "com.apple.product-type.application";
+		};
+		050000000000000000000002 /* LidFoldTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A0000000000000000000003 /* Build configuration list for PBXNativeTarget "LidFoldTests" */;
+			buildPhases = (
+				060000000000000000000002 /* Sources */,
+				030000000000000000000002 /* Frameworks */,
+				070000000000000000000002 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0B0000000000000000000001 /* PBXTargetDependency */,
+			);
+			name = LidFoldTests;
+			productName = LidFoldTests;
+			productReference = 020000000000000000000021 /* LidFoldTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXContainerItemProxy section */
+		0C0000000000000000000001 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 080000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 050000000000000000000001;
+			remoteInfo = LidFold;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXTargetDependency section */
+		0B0000000000000000000001 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 050000000000000000000001 /* LidFold */;
+			targetProxy = 0C0000000000000000000001 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXProject section */
+		080000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+			TargetAttributes = {
+					050000000000000000000001 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					050000000000000000000002 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 050000000000000000000001;
+					};
+				};
+			};
+			buildConfigurationList = 0A0000000000000000000001 /* Build configuration list for PBXProject "LidFold" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 040000000000000000000001;
+			productRefGroup = 040000000000000000000005 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				050000000000000000000001 /* LidFold */,
+				050000000000000000000002 /* LidFoldTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		070000000000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				01000000000000000000000A /* Assets.xcassets in Resources */,
+				01000000000000000000001F /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		070000000000000000000002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		060000000000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				010000000000000000000015 /* CaptureDisplayTopology.swift in Sources */,
+				010000000000000000000001 /* FoldActivationController.swift in Sources */,
+				010000000000000000000002 /* FoldParameters.swift in Sources */,
+				010000000000000000000003 /* FoldRenderer.swift in Sources */,
+				010000000000000000000004 /* HingeAngleSensor.swift in Sources */,
+				010000000000000000000005 /* HingeMonitor.swift in Sources */,
+				010000000000000000000012 /* LaunchAtLoginController.swift in Sources */,
+				010000000000000000000006 /* LidFold.swift in Sources */,
+				010000000000000000000007 /* OverlayController.swift in Sources */,
+				010000000000000000000008 /* ScreenCaptureEngine.swift in Sources */,
+				010000000000000000000009 /* ScreenCapturePermission.swift in Sources */,
+				010000000000000000000013 /* SettingsStore.swift in Sources */,
+				010000000000000000000014 /* SettingsWindowController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		060000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				010000000000000000000016 /* CaptureDisplayTopologyTests.swift in Sources */,
+				010000000000000000000017 /* FoldActivationControllerTests.swift in Sources */,
+				010000000000000000000018 /* HingeMonitorTests.swift in Sources */,
+				010000000000000000000019 /* LaunchAtLoginControllerTests.swift in Sources */,
+				01000000000000000000001A /* LidFoldTests.swift in Sources */,
+				01000000000000000000001B /* ScreenCapturePermissionTests.swift in Sources */,
+				01000000000000000000001C /* ScreenCaptureRecoveryTests.swift in Sources */,
+				01000000000000000000001D /* SettingsStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		090000000000000000000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		090000000000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		090000000000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_TESTABILITY = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.lidfold.LidFold;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		090000000000000000000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.lidfold.LidFold;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		090000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.lidfold.LidFoldTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LidFold.app/Contents/MacOS/LidFold";
+			};
+			name = Debug;
+		};
+		090000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.lidfold.LidFoldTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LidFold.app/Contents/MacOS/LidFold";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A0000000000000000000001 /* Build configuration list for PBXProject "LidFold" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				090000000000000000000001 /* Debug */,
+				090000000000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A0000000000000000000002 /* Build configuration list for PBXNativeTarget "LidFold" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				090000000000000000000003 /* Debug */,
+				090000000000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A0000000000000000000003 /* Build configuration list for PBXNativeTarget "LidFoldTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				090000000000000000000005 /* Debug */,
+				090000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 080000000000000000000001 /* Project object */;
+}

@@ -200,7 +200,7 @@ final class FoldRenderer: NSObject, MTKViewDelegate {
                 filter::linear
             );
             float2 outputUV = input.textureCoordinate;
-            float top = 0.02 + 0.42 * fold.progress;
+            float top = 0.42 * fold.progress;
             float bottom = 1.0 - 0.01 * fold.progress;
             float sourceY = (outputUV.y - top) / max(bottom - top, 0.001);
 

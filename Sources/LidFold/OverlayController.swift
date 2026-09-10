@@ -76,6 +76,14 @@ final class OverlayController {
         self.renderer = renderer
     }
 
+    /// Makes this process discoverable to ScreenCaptureKit without showing pixels.
+    /// The transparent, click-through panel is ordered in only long enough for the
+    /// capture filter to resolve and exclude LidFold's running application.
+    func prepareForCaptureDiscovery() {
+        panel.alphaValue = 0
+        panel.orderFrontRegardless()
+    }
+
     /// Presents a complete captured frame. Invalid frames immediately fail open.
     func display(pixelBuffer: CVPixelBuffer, parameters: FoldParameters) {
         guard renderer.update(pixelBuffer: pixelBuffer, parameters: parameters) else {
@@ -84,15 +92,24 @@ final class OverlayController {
         }
 
         if !isVisible {
+            panel.alphaValue = 1
             panel.orderFrontRegardless()
             isVisible = true
         }
         metalView.setNeedsDisplay(metalView.bounds)
     }
 
+    /// Validates the zero-copy Core Video to Metal bridge without presenting the panel.
+    func validateFrame(pixelBuffer: CVPixelBuffer, parameters: FoldParameters) -> Bool {
+        let accepted = renderer.update(pixelBuffer: pixelBuffer, parameters: parameters)
+        renderer.clearFrame()
+        return accepted
+    }
+
     /// Removes the overlay and releases the last captured surface.
     func hide() {
         panel.orderOut(nil)
+        panel.alphaValue = 1
         renderer.clearFrame()
         isVisible = false
     }

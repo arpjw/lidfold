@@ -5,38 +5,187 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: Semantic version to package (for example, 1.2.3)
+        required: true
+        type: string
 
 permissions:
   contents: write
 
 jobs:
-  source-package:
-    name: Publish source snapshot
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+  release-package:
+    name: Build release artifacts
+    runs-on: macos-26
+    timeout-minutes: 45
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Create source archive
+      - name: Select Xcode 26.3
+        run: sudo xcode-select --switch /Applications/Xcode_26.3.app/Contents/Developer
+
+      - name: Resolve release version
         env:
-          RELEASE_REF: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_VERSION: ${{ inputs.version }}
         run: |
+          if [[ "$EVENT_NAME" == "workflow_dispatch" ]]; then
+            release_ref="v${REQUESTED_VERSION#v}"
+          else
+            release_ref="$GITHUB_REF_NAME"
+          fi
+          version="${release_ref#v}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z.-]+)?$ ]]; then
+            echo "Release version must look like 1.2.3 (received: ${version})" >&2
+            exit 1
+          fi
+          echo "RELEASE_REF=$release_ref" >> "$GITHUB_ENV"
+          echo "RELEASE_VERSION=$version" >> "$GITHUB_ENV"
+
+      - name: Configure optional Developer ID signing
+        env:
+          CERTIFICATE_BASE64: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_BASE64 }}
+          CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DEVELOPER_ID_CERTIFICATE_PASSWORD }}
+          NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+          NOTARY_KEY_BASE64: ${{ secrets.APPLE_NOTARY_KEY_BASE64 }}
+          NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+        run: |
+          secret_names=(
+            CERTIFICATE_BASE64
+            CERTIFICATE_PASSWORD
+            NOTARY_ISSUER_ID
+            NOTARY_KEY_BASE64
+            NOTARY_KEY_ID
+          )
+          configured=0
+          for secret_name in "${secret_names[@]}"; do
+            if [[ -n "${!secret_name}" ]]; then
+              configured=$((configured + 1))
+            fi
+          done
+
+          if [[ "$configured" -eq 0 ]]; then
+            echo "Apple credentials are not configured; producing an ad-hoc-signed release."
+            echo "SIGNING_ENABLED=false" >> "$GITHUB_ENV"
+            exit 0
+          fi
+
+          if [[ "$configured" -ne "${#secret_names[@]}" ]]; then
+            echo "Apple release credentials are only partially configured." >&2
+            echo "Configure every secret documented in docs/SIGNING.md, or remove all of them for an unsigned release." >&2
+            exit 1
+          fi
+
+          signing_keychain="$RUNNER_TEMP/lidfold-signing.keychain-db"
+          certificate_path="$RUNNER_TEMP/lidfold-developer-id.p12"
+          notary_key_path="$RUNNER_TEMP/lidfold-notary-key.p8"
+          keychain_password="$(openssl rand -hex 24)"
+
+          umask 077
+          printf '%s' "$CERTIFICATE_BASE64" | base64 --decode > "$certificate_path"
+          printf '%s' "$NOTARY_KEY_BASE64" | base64 --decode > "$notary_key_path"
+          chmod 600 "$certificate_path" "$notary_key_path"
+
+          security create-keychain -p "$keychain_password" "$signing_keychain"
+          security set-keychain-settings -lut 21600 "$signing_keychain"
+          security unlock-keychain -p "$keychain_password" "$signing_keychain"
+          security import "$certificate_path" \
+            -k "$signing_keychain" \
+            -P "$CERTIFICATE_PASSWORD" \
+            -T /usr/bin/codesign \
+            -T /usr/bin/security
+          security set-key-partition-list \
+            -S apple-tool:,apple:,codesign: \
+            -s \
+            -k "$keychain_password" \
+            "$signing_keychain"
+          security list-keychains -d user -s "$signing_keychain"
+
+          signing_identity="$({ security find-identity -v -p codesigning "$signing_keychain" || true; } | sed -n 's/.*"\(Developer ID Application:.*\)"/\1/p' | head -n 1)"
+          if [[ -z "$signing_identity" ]]; then
+            echo "The imported certificate does not contain a valid Developer ID Application identity." >&2
+            exit 1
+          fi
+
+          echo "SIGNING_ENABLED=true" >> "$GITHUB_ENV"
+          echo "SIGNING_IDENTITY=$signing_identity" >> "$GITHUB_ENV"
+          echo "SIGNING_KEYCHAIN=$signing_keychain" >> "$GITHUB_ENV"
+          echo "NOTARY_KEY_PATH=$notary_key_path" >> "$GITHUB_ENV"
+
+      - name: Build universal app and DMG
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          VERSION: ${{ env.RELEASE_VERSION }}
+        run: scripts/package-release.sh
+
+      - name: Notarize, staple, and verify DMG
+        if: env.SIGNING_ENABLED == 'true'
+        env:
+          NOTARY_ISSUER_ID: ${{ secrets.APPLE_NOTARY_ISSUER_ID }}
+          NOTARY_KEY_ID: ${{ secrets.APPLE_NOTARY_KEY_ID }}
+        run: |
+          dmg_path="dist/LidFold-${RELEASE_VERSION}-macOS-universal.dmg"
+          xcrun notarytool submit "$dmg_path" \
+            --key "$NOTARY_KEY_PATH" \
+            --key-id "$NOTARY_KEY_ID" \
+            --issuer "$NOTARY_ISSUER_ID" \
+            --wait \
+            --timeout 30m
+          xcrun stapler staple "$dmg_path"
+          xcrun stapler validate "$dmg_path"
+          spctl --assess --type open --context context:primary-signature --verbose=2 "$dmg_path"
+
+          app_path="dist/DerivedData/Build/Products/Release/LidFold.app"
+          zip_path="dist/LidFold-${RELEASE_VERSION}-macOS-universal.zip"
+          xcrun stapler staple "$app_path"
+          xcrun stapler validate "$app_path"
+          spctl --assess --type execute --verbose=2 "$app_path"
+          rm -f "$zip_path"
+          ditto -c -k --sequesterRsrc --keepParent "$app_path" "$zip_path"
+
+      - name: Verify disk image
+        run: hdiutil verify "dist/LidFold-${RELEASE_VERSION}-macOS-universal.dmg"
+
+      - name: Create source archive and complete checksums
+        run: |
+          if [[ "$SIGNING_ENABLED" == "true" ]]; then
+            trust="Developer ID signed and Apple notarized"
+          else
+            trust="Ad-hoc signed; not Apple notarized"
+          fi
+          printf '%s\n' \
+            "LidFold ${RELEASE_VERSION}" \
+            "Architectures: arm64, x86_64" \
+            "Minimum macOS: 14.0" \
+            "Trust: ${trust}" \
+            "Commit: ${GITHUB_SHA}" \
+            > dist/RELEASE-METADATA.txt
           git archive \
             --format=tar.gz \
             --prefix="LidFold-${RELEASE_REF}/" \
-            --output="LidFold-${RELEASE_REF}-source.tar.gz" \
+            --output="dist/LidFold-${RELEASE_REF}-source.tar.gz" \
             HEAD
-          sha256sum "LidFold-${RELEASE_REF}-source.tar.gz" > "LidFold-${RELEASE_REF}-source.tar.gz.sha256"
+          cd dist
+          shasum -a 256 \
+            "LidFold-${RELEASE_REF}-source.tar.gz" \
+            "LidFold-${RELEASE_VERSION}-macOS-universal.zip" \
+            "LidFold-${RELEASE_VERSION}-macOS-universal.dmg" \
+            RELEASE-METADATA.txt \
+            > SHA256SUMS.txt
 
       - name: Upload workflow artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: LidFold-${{ github.ref_name }}-source
+          name: LidFold-${{ env.RELEASE_VERSION }}
           path: |
-            LidFold-${{ github.ref_name }}-source.tar.gz
-            LidFold-${{ github.ref_name }}-source.tar.gz.sha256
+            dist/LidFold-${{ env.RELEASE_REF }}-source.tar.gz
+            dist/LidFold-${{ env.RELEASE_VERSION }}-macOS-universal.zip
+            dist/LidFold-${{ env.RELEASE_VERSION }}-macOS-universal.dmg
+            dist/RELEASE-METADATA.txt
+            dist/SHA256SUMS.txt
           if-no-files-found: error
 
       - name: Attach artifacts to GitHub release
@@ -46,7 +195,18 @@ jobs:
           RELEASE_REF: ${{ github.ref_name }}
         run: |
           gh release create "${RELEASE_REF}" \
-            "LidFold-${RELEASE_REF}-source.tar.gz" \
-            "LidFold-${RELEASE_REF}-source.tar.gz.sha256" \
+            "dist/LidFold-${RELEASE_REF}-source.tar.gz" \
+            "dist/LidFold-${RELEASE_VERSION}-macOS-universal.zip" \
+            "dist/LidFold-${RELEASE_VERSION}-macOS-universal.dmg" \
+            "dist/RELEASE-METADATA.txt" \
+            "dist/SHA256SUMS.txt" \
             --generate-notes \
             --verify-tag
+
+      - name: Remove temporary signing credentials
+        if: always()
+        run: |
+          security delete-keychain "$RUNNER_TEMP/lidfold-signing.keychain-db" || true
+          rm -f \
+            "$RUNNER_TEMP/lidfold-developer-id.p12" \
+            "$RUNNER_TEMP/lidfold-notary-key.p8"
