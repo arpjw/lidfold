@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  source-package:
+    name: Publish source snapshot
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create source archive
+        env:
+          RELEASE_REF: ${{ github.ref_name }}
+        run: |
+          git archive \
+            --format=tar.gz \
+            --prefix="LidFold-${RELEASE_REF}/" \
+            --output="LidFold-${RELEASE_REF}-source.tar.gz" \
+            HEAD
+          sha256sum "LidFold-${RELEASE_REF}-source.tar.gz" > "LidFold-${RELEASE_REF}-source.tar.gz.sha256"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: LidFold-${{ github.ref_name }}-source
+          path: |
+            LidFold-${{ github.ref_name }}-source.tar.gz
+            LidFold-${{ github.ref_name }}-source.tar.gz.sha256
+          if-no-files-found: error
+
+      - name: Attach artifacts to GitHub release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_REF: ${{ github.ref_name }}
+        run: |
+          gh release create "${RELEASE_REF}" \
+            "LidFold-${RELEASE_REF}-source.tar.gz" \
+            "LidFold-${RELEASE_REF}-source.tar.gz.sha256" \
+            --generate-notes \
+            --verify-tag
