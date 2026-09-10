@@ -4,19 +4,20 @@ LidFold is a free, open-source macOS experiment that makes the desktop visually 
 MacBook lid closes. The project is a clean-room implementation inspired by the interaction,
 not the branding, code, copy, or assets of any commercial app.
 
-The first working slice is a native menu-bar app that reads the hinge angle on compatible
-Apple silicon MacBooks. The next slice will capture the display with ScreenCaptureKit and
-render the fold through a click-through Metal overlay.
+The current prototype reads the hinge angle, captures the built-in display with
+ScreenCaptureKit, and renders a GPU-accelerated fold through a click-through Metal overlay.
+It fails open by hiding the overlay whenever capture, sleep, session, or display state changes.
 
 ## Status
 
 - [x] Native menu-bar app
 - [x] Live hinge-angle reader
 - [x] Tested angle-to-effect mapping
+- [x] Smoothed hinge monitoring and activation hysteresis
 - [x] Screen Recording permission boundary
-- [ ] Screen Recording onboarding UI
-- [ ] ScreenCaptureKit display capture
-- [ ] Metal perspective, blur, shade, and shadow renderer
+- [x] Screen Recording menu onboarding
+- [x] Built-in-display ScreenCaptureKit stream
+- [x] Metal perspective, blur, shade, and shadow prototype
 - [ ] Multi-display and display-reconfiguration handling
 - [ ] Settings window and launch at login
 - [ ] Signed, notarized universal DMG
@@ -37,6 +38,7 @@ will require Screen Recording permission, but frames will remain on-device.
 ```sh
 swift build
 swift run LidFold --diagnose
+swift run LidFold --validate-renderer
 swift run LidFold
 ```
 
@@ -57,10 +59,10 @@ The app stays native and dependency-light:
 
 1. `HingeAngleSensor` reads the Apple HID orientation report.
 2. `FoldParameters` converts physical angle into eased visual parameters.
-3. A forthcoming `ScreenCaptureEngine` will produce IOSurface-backed frames with
-   ScreenCaptureKit while excluding LidFold's own overlay.
-4. A forthcoming `FoldRenderer` will feed those frames directly into Metal and render one
-   click-through, nonactivating overlay per display.
+3. `ScreenCaptureEngine` produces IOSurface-backed frames with ScreenCaptureKit while excluding
+   LidFold's own overlay.
+4. `FoldRenderer` feeds those frames directly into Metal and renders them through a
+   click-through, nonactivating overlay on the built-in display.
 
 The distributable will use an Xcode macOS app target for a stable permission identity, Metal
 resource compilation, signing, and notarization. Pure logic remains in Swift Package Manager
