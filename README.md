@@ -25,7 +25,7 @@ render the fold through a click-through Metal overlay.
 
 - macOS 14 or newer
 - An Apple silicon MacBook with the lid-orientation HID sensor
-- Swift 6.3 or newer for command-line builds
+- Swift 6.2 or newer for command-line builds
 - Full Xcode for app bundling, signing, Metal shader compilation, and notarization
 
 The lid sensor is not a public Apple API. LidFold reads an undocumented HID feature report,
