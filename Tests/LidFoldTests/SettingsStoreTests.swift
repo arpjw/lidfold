@@ -50,9 +50,15 @@ final class SettingsStoreTests: XCTestCase {
 
         store.setDeactivationAngle(70)
         store.setActivationAngle(90)
-        XCTAssertEqual(store.activationAngle, 69)
+        XCTAssertEqual(store.activationAngle, 76)
+        XCTAssertEqual(store.deactivationAngle, 77)
 
         store.setDeactivationAngle(20)
+        XCTAssertEqual(store.deactivationAngle, 77)
+
+        store.setActivationAngle(68)
+        store.setDeactivationAngle(70)
+        XCTAssertEqual(store.activationAngle, 68)
         XCTAssertEqual(store.deactivationAngle, 70)
 
         store.setMaximumBlurRadius(200)
